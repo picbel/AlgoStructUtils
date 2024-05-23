@@ -1,6 +1,9 @@
 package trie
 
-
+/**
+ * Trie 자료구조를 구현합니다.
+ * @since 2024/05/21
+ */
 interface Trie {
     val root: TrieNode
 
