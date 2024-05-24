@@ -37,6 +37,18 @@ interface WeightedRandom<T> {
     }
 }
 
+interface MutableWeightedRandom<T> : WeightedRandom<T> {
+    override fun plus(item: WeightedItem<T>): Boolean
+
+    override fun add(item: WeightedItem<T>): Boolean
+
+    override fun add(value: T, weight: Double): Boolean
+
+    override fun minus(item: T): Boolean
+
+    override fun remove(item: T): Boolean
+}
+
 class WeightedRandomDefault<T>(
     items: Collection<WeightedItem<T>> = mutableListOf(),
     private val random: Random = Random.Default
