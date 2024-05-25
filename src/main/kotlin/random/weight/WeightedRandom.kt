@@ -13,15 +13,6 @@ import kotlin.random.Random
  * @param random A random number generator.
  */
 interface WeightedRandom<T> {
-    operator fun plus(item: WeightedItem<T>): Boolean
-
-    fun add(item: WeightedItem<T>): Boolean
-
-    fun add(value: T, weight: Double): Boolean
-
-    operator fun minus(item: T): Boolean
-
-    fun remove(item: T): Boolean
 
     fun getItems(): List<WeightedItem<T>>
 
@@ -32,27 +23,27 @@ interface WeightedRandom<T> {
             items: Collection<WeightedItem<T>> = mutableListOf(),
             random: Random = Random.Default
         ): WeightedRandom<T> {
-            return WeightedRandomDefault(items, random)
+            return MutableWeightedRandomImpl(items, random)
         }
     }
 }
 
 interface MutableWeightedRandom<T> : WeightedRandom<T> {
-    override fun plus(item: WeightedItem<T>): Boolean
+    fun plus(item: WeightedItem<T>): Boolean
 
-    override fun add(item: WeightedItem<T>): Boolean
+    fun add(item: WeightedItem<T>): Boolean
 
-    override fun add(value: T, weight: Double): Boolean
+    fun add(value: T, weight: Double): Boolean
 
-    override fun minus(item: T): Boolean
+    fun minus(item: T): Boolean
 
-    override fun remove(item: T): Boolean
+    fun remove(item: T): Boolean
 }
 
-class WeightedRandomDefault<T>(
+class MutableWeightedRandomImpl<T>(
     items: Collection<WeightedItem<T>> = mutableListOf(),
     private val random: Random = Random.Default
-) : WeightedRandom<T> {
+) : MutableWeightedRandom<T> {
     private val items: MutableList<WeightedItem<T>> = items.toMutableList()
     private var cumulativeWeights: List<Double> = emptyList()
 
