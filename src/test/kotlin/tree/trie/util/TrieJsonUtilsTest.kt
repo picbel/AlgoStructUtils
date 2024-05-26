@@ -1,12 +1,12 @@
-package trie.util
+package tree.trie.util
 
 import org.json.JSONObject
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
-import tree.trie.Trie
-import tree.trie.util.TrieJsonUtils.fromJson
-import tree.trie.util.TrieJsonUtils.toJsonString
+import trie.Trie
+import trie.util.TrieJsonUtils.fromJson
+import trie.util.TrieJsonUtils.toJsonString
 
 class TrieJsonUtilsTest {
     private val jsonString = """

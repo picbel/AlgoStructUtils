@@ -1,11 +1,11 @@
-package trie
+package tree.trie
 
 import io.kotest.assertions.assertSoftly
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
-import tree.trie.MutableTrie
+import trie.MutableTrie
 
 internal class TrieSpec {
     private val trie = MutableTrie.empty().apply {
