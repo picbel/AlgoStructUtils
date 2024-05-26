@@ -10,18 +10,12 @@ import kotlin.test.Test
  * @since 2024/05/21
  */
 internal class WeightedRandomSpec {
-    private lateinit var sut : WeightedRandom<String>
-
-    @BeforeTest
-    fun setUp() {
-        // given:
-        sut = WeightedRandom.default()
-    }
 
     @DisplayName("A의 비중을 10, B와 C의 비중을 각각 0으로 설정하고 random 함수를 호출하면 결과는 A만 나옵니다.")
     @Test
     fun callRandomWithWeightsA10B0C0ReturnsAOnly() {
         // given:
+        val sut = MutableWeightedRandom.default<String>()
         sut.add(WeightedItem("A", 10.0))
         sut.add(WeightedItem("B", 0.0))
         sut.add(WeightedItem("C", 0.0))
@@ -35,7 +29,7 @@ internal class WeightedRandomSpec {
     @Test
     fun removeBThenCallRandomWithWeightsA10B10C0ReturnsAOnly() {
         // given:
-        sut = WeightedRandom.default(
+        val sut = MutableWeightedRandom.default<String>(
             mutableListOf(
                 WeightedItem("A", 10.0),
                 WeightedItem("B", 10.0),
@@ -56,7 +50,7 @@ internal class WeightedRandomSpec {
     @Test
     fun callRandomThrowsExceptionWhenAllWeightsAreZeroOrDeleted() {
         // given:
-        sut = WeightedRandom.default(
+        val sut = MutableWeightedRandom.default<String>(
             mutableListOf(
                 WeightedItem("A", 10.0),
                 WeightedItem("B", 0.0),
@@ -75,7 +69,7 @@ internal class WeightedRandomSpec {
     @Test
     fun callRandomThrowsExceptionWhenAllWeightsAreDeleted() {
         // given:
-        sut = WeightedRandom.default()
+        val sut = MutableWeightedRandom.default<String>()
         // when: // then: When items is empty, the random function throws an exception.
         shouldThrow<IllegalStateException> {
             sut.random()
@@ -86,7 +80,7 @@ internal class WeightedRandomSpec {
     @Test
     fun setItemsEmptyThenCallRandomReturnsAOnly() {
         // given:
-        sut = WeightedRandom.default(
+        val sut = MutableWeightedRandom.default<String>(
             mutableListOf(
                 WeightedItem("A", 10.0),
                 WeightedItem("B", 10.0),
@@ -98,5 +92,6 @@ internal class WeightedRandomSpec {
             sut.random() shouldBe "A"
         }
     }
+
 
 }

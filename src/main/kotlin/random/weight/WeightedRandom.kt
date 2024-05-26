@@ -13,9 +13,24 @@ import kotlin.random.Random
  * @param random A random number generator.
  */
 interface WeightedRandom<T> {
+    /**
+     * Returns a list of items with weights.
+     *
+     * 가중치가 있는 항목들의 리스트를 반환합니다.
+     *
+     * @return A list of items with weights.
+     */
 
     fun getItems(): List<WeightedItem<T>>
 
+    /**
+     * Returns a randomly selected item.
+     *
+     * 가중치를 기반으로 무작위로 선택된 항목을 반환합니다.
+     *
+     * @return A randomly selected item.
+     * @throws IllegalStateException When there are no items to choose from.
+     */
     fun random(): T
 
     companion object {
@@ -30,15 +45,65 @@ interface WeightedRandom<T> {
 }
 
 interface MutableWeightedRandom<T> : WeightedRandom<T> {
-    fun plus(item: WeightedItem<T>): Boolean
+    /**
+     * Adds an item to the collection.
+     *
+     * 항목을 컬렉션에 추가합니다.
+     *
+     * @param item An item with a weight.
+     * @return true if the item is added; otherwise, false.
+     */
+    operator fun plus(item: WeightedItem<T>): Boolean
 
+    /**
+     * Adds an item to the collection.
+     *
+     * 항목을 컬렉션에 추가합니다.
+     *
+     * @param item An item with a weight.
+     * @return true if the item is added; otherwise, false.
+     */
     fun add(item: WeightedItem<T>): Boolean
 
+    /**
+     * Adds an item to the collection.
+     *
+     * 항목을 컬렉션에 추가합니다.
+     *
+     * @param value An item.
+     * @param weight A weight.
+     * @return true if the item is added; otherwise, false.
+     */
     fun add(value: T, weight: Double): Boolean
 
+    /**
+     * Removes an item from the collection.
+     *
+     * 항목을 컬렉션에서 제거합니다.
+     *
+     * @param item An item.
+     * @return true if the item is removed; otherwise, false.
+     */
     fun minus(item: T): Boolean
 
+    /**
+     * Removes an item from the collection.
+     *
+     * 항목을 컬렉션에서 제거합니다.
+     *
+     * @param item An item.
+     * @return true if the item is removed; otherwise, false.
+     */
     fun remove(item: T): Boolean
+
+    companion object {
+        fun <T> default(
+            items: Collection<WeightedItem<T>> = mutableListOf(),
+            random: Random = Random.Default
+        ): MutableWeightedRandom<T> {
+            return MutableWeightedRandomImpl(items, random)
+        }
+    }
 }
 
 class MutableWeightedRandomImpl<T>(
@@ -47,10 +112,6 @@ class MutableWeightedRandomImpl<T>(
 ) : MutableWeightedRandom<T> {
     private val items: MutableList<WeightedItem<T>> = items.toMutableList()
     private var cumulativeWeights: List<Double> = emptyList()
-
-    init {
-        updateCumulativeWeights()
-    }
 
     override operator fun plus(item: WeightedItem<T>): Boolean {
         minus(item.value)
@@ -100,6 +161,14 @@ class MutableWeightedRandomImpl<T>(
     }
 }
 
+/**
+ * A weighted item.
+ *
+ * 가중치가 있는 항목입니다.
+ *
+ * @param value An item.
+ * @param weight A weight.
+ */
 data class WeightedItem<T>(
     val value: T,
     val weight: Double
