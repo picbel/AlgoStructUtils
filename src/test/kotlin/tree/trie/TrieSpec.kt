@@ -5,7 +5,7 @@ import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
-import trie.MutableTrie
+import tree.trie.MutableTrie
 
 internal class TrieSpec {
     private val trie = MutableTrie.empty().apply {

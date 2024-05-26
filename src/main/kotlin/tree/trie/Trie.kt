@@ -1,4 +1,4 @@
-package trie
+package tree.trie
 
 /**
  * Trie 자료구조를 구현합니다.

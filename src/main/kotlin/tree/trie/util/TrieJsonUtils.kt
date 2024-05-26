@@ -1,10 +1,10 @@
-package trie.util
+package tree.trie.util
 
 import org.json.JSONObject
-import trie.Trie
-import trie.TrieImpl
-import trie.MutableTrieNode
-import trie.TrieNode
+import tree.trie.Trie
+import tree.trie.TrieImpl
+import tree.trie.MutableTrieNode
+import tree.trie.TrieNode
 
 /**
  * Trie를 JSON 문자열로 변환하거나 JSON 문자열로부터 Trie를 구축하는 유틸리티 클래스입니다.
