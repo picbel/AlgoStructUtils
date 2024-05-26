@@ -26,6 +26,7 @@ interface WeightedRandom<T> {
             return MutableWeightedRandomImpl(items, random)
         }
     }
+
 }
 
 interface MutableWeightedRandom<T> : WeightedRandom<T> {
