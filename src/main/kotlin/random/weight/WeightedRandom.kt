@@ -113,6 +113,10 @@ class MutableWeightedRandomImpl<T>(
     private val items: MutableList<WeightedItem<T>> = items.toMutableList()
     private var cumulativeWeights: List<Double> = emptyList()
 
+    init {
+        updateCumulativeWeights()
+    }
+
     override operator fun plus(item: WeightedItem<T>): Boolean {
         minus(item.value)
         items.add(item)
@@ -147,8 +151,8 @@ class MutableWeightedRandomImpl<T>(
     }
 
     override fun random(): T {
-        if (cumulativeWeights.isEmpty() || cumulativeWeights.last() == 0.0) {
-            throw IllegalStateException("No items to choose from")
+        require(cumulativeWeights.isNotEmpty() && cumulativeWeights.last() > 0.0) {
+            throw IllegalStateException("There are no items to choose from")
         }
         val randomValue = random.nextDouble(from = 0.0, until = cumulativeWeights.last())
         val index = cumulativeWeights.binarySearch { it.compareTo(randomValue) }
