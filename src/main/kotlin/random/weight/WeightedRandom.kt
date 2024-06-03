@@ -31,6 +31,7 @@ interface WeightedRandom<T> {
      * @return A randomly selected item.
      * @throws IllegalStateException When there are no items to choose from.
      */
+    @Throws(IllegalStateException::class)
     fun random(): T
 
     companion object {
@@ -148,7 +149,7 @@ class MutableWeightedRandomImpl<T>(
 
     override fun random(): T {
         require(items.isNotEmpty()) {
-            "No items to choose from"
+            throw IllegalStateException("No items to choose from")
         }
         val randomValue = random.nextDouble(from = 0.0, until = cumulativeWeights.last())
         val index = cumulativeWeights.binarySearch { it.compareTo(randomValue) }
