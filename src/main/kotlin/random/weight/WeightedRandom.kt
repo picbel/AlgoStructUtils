@@ -110,18 +110,18 @@ class MutableWeightedRandomImpl<T>(
     items: Collection<WeightedItem<T>> = mutableListOf(),
     private val random: Random = Random.Default
 ) : MutableWeightedRandom<T> {
-    private val items: MutableList<WeightedItem<T>> = items.toMutableList()
+    private val items: MutableList<WeightedItem<T>> = mutableListOf()
     private var cumulativeWeights: List<Double> = emptyList()
 
     init {
+        items.forEach { addInternal(it) }
         updateCumulativeWeights()
     }
 
     override operator fun plus(item: WeightedItem<T>): Boolean {
-        minus(item.value)
-        items.add(item)
-        updateCumulativeWeights()
-        return true
+        return addInternal(item).also {
+            updateCumulativeWeights()
+        }
     }
 
     override fun add(item: WeightedItem<T>): Boolean {
@@ -133,13 +133,9 @@ class MutableWeightedRandomImpl<T>(
     }
 
     override operator fun minus(item: T): Boolean {
-        val index = items.indexOfFirst { it.value == item }
-        if (index == -1) {
-            return false
+        return removeInternal(item).also {
+            updateCumulativeWeights()
         }
-        items.removeAt(index)
-        updateCumulativeWeights()
-        return true
     }
 
     override fun remove(item: T): Boolean {
@@ -151,8 +147,8 @@ class MutableWeightedRandomImpl<T>(
     }
 
     override fun random(): T {
-        require(cumulativeWeights.isNotEmpty() && cumulativeWeights.last() > 0.0) {
-            throw IllegalStateException("There are no items to choose from")
+        require(items.isNotEmpty()) {
+            "No items to choose from"
         }
         val randomValue = random.nextDouble(from = 0.0, until = cumulativeWeights.last())
         val index = cumulativeWeights.binarySearch { it.compareTo(randomValue) }
@@ -162,6 +158,20 @@ class MutableWeightedRandomImpl<T>(
 
     private fun updateCumulativeWeights() {
         cumulativeWeights = items.scan(0.0) { acc, item -> acc + item.weight }.drop(1)
+    }
+
+    private fun addInternal(item: WeightedItem<T>): Boolean {
+        removeInternal(item.value)
+        return items.add(item)
+    }
+
+    private fun removeInternal(item: T): Boolean {
+        val index = items.indexOfFirst { it.value == item }
+        if (index == -1) {
+            return false
+        }
+        items.removeAt(index)
+        return true
     }
 }
 

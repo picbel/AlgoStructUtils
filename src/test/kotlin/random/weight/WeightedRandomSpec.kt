@@ -46,7 +46,7 @@ internal class WeightedRandomSpec {
         }
     }
 
-    @DisplayName("A의 비중을 10, B와 C의 비중을 각각 0으로 설정하고 random 함수를 호출하면 결과는 A만 나옵니다.")
+    @DisplayName("선택할 항목이 없다면 random 함수가 예외를 발생시킵니다.")
     @Test
     fun callRandomThrowsExceptionWhenAllWeightsAreZeroOrDeleted() {
         // given:
@@ -92,6 +92,5 @@ internal class WeightedRandomSpec {
             sut.random() shouldBe "A"
         }
     }
-
 
 }
