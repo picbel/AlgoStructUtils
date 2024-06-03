@@ -148,7 +148,7 @@ class MutableWeightedRandomImpl<T>(
     }
 
     override fun random(): T {
-        require(items.isNotEmpty()) {
+        require(items.isNotEmpty() && cumulativeWeights.last() > 0.0) {
             throw IllegalStateException("No items to choose from")
         }
         val randomValue = random.nextDouble(from = 0.0, until = cumulativeWeights.last())
