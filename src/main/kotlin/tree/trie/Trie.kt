@@ -108,6 +108,7 @@ internal class TrieImpl(
     override fun toMutableTrie(): MutableTrie = this
 }
 
+// value를 T로 제네릭으로 하자
 interface TrieNode {
     val children: Map<Char, TrieNode>
     val value: String?

@@ -3,7 +3,6 @@ package random.weight
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.DisplayName
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 
 /**
