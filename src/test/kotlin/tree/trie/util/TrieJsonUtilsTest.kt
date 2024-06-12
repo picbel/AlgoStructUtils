@@ -8,6 +8,9 @@ import tree.trie.Trie
 import tree.trie.util.TrieJsonUtils.fromJson
 import tree.trie.util.TrieJsonUtils.toJsonString
 
+/**
+ * @since 2024/02/04
+ */
 class TrieJsonUtilsTest {
     private val jsonString = """
     {

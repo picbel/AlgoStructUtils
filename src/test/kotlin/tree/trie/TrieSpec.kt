@@ -7,6 +7,9 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 
 
+/**
+ * @since 2024/02/04
+ */
 internal class TrieSpec {
     private val trie = MutableTrie.empty().apply {
         put("서울특별시", "직접배송")
