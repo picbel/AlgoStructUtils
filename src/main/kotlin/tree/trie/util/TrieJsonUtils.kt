@@ -3,7 +3,7 @@ package tree.trie.util
 import org.json.JSONObject
 import tree.trie.Trie
 import tree.trie.TrieImpl
-import tree.trie.MutableTrieNode
+import tree.trie.MutableTrieNodeImpl
 import tree.trie.TrieNode
 
 /**
@@ -34,18 +34,18 @@ object TrieJsonUtils {
      */
     fun Trie.Companion.fromJson(jsonStr: String): Trie {
         val jsonObject = JSONObject(jsonStr)
-        val node = MutableTrieNode()
+        val node = MutableTrieNodeImpl()
         buildTrieFromJson(jsonObject, node)
         return TrieImpl(node)
     }
 
     // JSON 객체로부터 Trie를 구축하는 수정된 메소드
-    private fun buildTrieFromJson(jsonObject: JSONObject, node: MutableTrieNode) {
+    private fun buildTrieFromJson(jsonObject: JSONObject, node: MutableTrieNodeImpl) {
         jsonObject.keys().forEach { key ->
             when (key) {
                 VALUE -> node.value = jsonObject.getString(key) ?: null
                 else -> {
-                    val childNode = MutableTrieNode()
+                    val childNode = MutableTrieNodeImpl()
                     node.children[key[0]] = childNode
                     buildTrieFromJson(jsonObject.getJSONObject(key), childNode)
                 }

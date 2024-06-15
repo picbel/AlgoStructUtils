@@ -51,12 +51,12 @@ interface MutableTrie : Trie {
 }
 
 internal class TrieImpl(
-    override val root: MutableTrieNode = MutableTrieNode()
+    override val root: MutableTrieNodeImpl = MutableTrieNodeImpl()
 ) : MutableTrie {
 
 
     override fun findSimilarValue(str: String): String? {
-        var currentNode = root
+        var currentNode : MutableTrieNode= root
         var value: String? = null
         for (char in str) {
             val childNode = currentNode.children[char] ?: break
@@ -67,9 +67,9 @@ internal class TrieImpl(
     }
 
     override fun put(str: String, value: String): Boolean {
-        var currentNode = root
+        var currentNode : MutableTrieNode= root
         for (char in str) {
-            val childNode = currentNode.children[char] ?: MutableTrieNode().also { currentNode.children[char] = it }
+            val childNode = currentNode.children[char] ?: MutableTrieNodeImpl().also { currentNode.children[char] = it }
             currentNode = childNode
         }
         currentNode.value = value
@@ -78,10 +78,10 @@ internal class TrieImpl(
 
     override fun remove(str: String): Boolean {
         // 삭제할 문자열의 노드를 저장합니다. first: 문자, second: 부모 노드
-        val nodes = mutableListOf<Pair<Char, MutableTrieNode>>()
-        var currentNode = root
+        val nodes = mutableListOf<Pair<Char, MutableTrieNodeImpl>>()
+        var currentNode : MutableTrieNode = root
         for (char in str) {
-            val childNode = currentNode.children[char] ?: return false
+            val childNode  = currentNode.children[char] ?: return false
             nodes.add(char to currentNode)
             currentNode = childNode
         }
@@ -96,7 +96,7 @@ internal class TrieImpl(
     }
 
     override fun clearValue(str: String): Boolean {
-        var currentNode = root
+        var currentNode : MutableTrieNode = root
         for (char in str) {
             val childNode = currentNode.children[char] ?: return false
             currentNode = childNode
@@ -121,11 +121,6 @@ interface TrieNode {
      */
 //    fun findSimilarValue(str: String): String?
 
-    /**
-     * @param str 추가할 단어
-     * @param value 단어에 대응하는 값
-     */
-//    fun put(str: String, value: String): Boolean
 //
 //    /**
 //     * 해당 문자열 구조를 trie에서 삭제합니다
@@ -136,8 +131,19 @@ interface TrieNode {
 //    fun remove(str: String): Boolean
 }
 
-internal class MutableTrieNode(
+interface MutableTrieNode : TrieNode {
+    override var value: String?
+    override val children: MutableMap<Char, MutableTrieNode>
+
+    /**
+     * @param str 추가할 단어
+     * @param value 단어에 대응하는 값
+     */
+//    fun put(str: String, value: String): Boolean
+}
+
+internal class MutableTrieNodeImpl(
     override var value: String? = null
-) : TrieNode {
+) : MutableTrieNode {
     override val children: MutableMap<Char, MutableTrieNode> = mutableMapOf()
 }
