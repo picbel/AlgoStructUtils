@@ -114,6 +114,26 @@ interface TrieNode {
     val children: Map<Char, TrieNode>
     val value: String?
     fun hasChildren(): Boolean = children.isNotEmpty()
+    // Trie인터페이스를 삭제하고 이걸로 하면 되지 않을까?
+    /**
+     * @param str 비교할 문자열
+     * @return 해당 문자열중 가장 많이 매칭된 문자열의 value를 가져옵니다.
+     */
+//    fun findSimilarValue(str: String): String?
+
+    /**
+     * @param str 추가할 단어
+     * @param value 단어에 대응하는 값
+     */
+//    fun put(str: String, value: String): Boolean
+//
+//    /**
+//     * 해당 문자열 구조를 trie에서 삭제합니다
+//     * 부모 노드가 자식 노드를 가지고 있지 않고 value가 null일 경우 삭제합니다.
+//     *
+//     * @param str 삭제할 문자열
+//     */
+//    fun remove(str: String): Boolean
 }
 
 internal class MutableTrieNode(
