@@ -78,7 +78,7 @@ internal class TrieImpl(
 
     override fun remove(str: String): Boolean {
         // 삭제할 문자열의 노드를 저장합니다. first: 문자, second: 부모 노드
-        val nodes = mutableListOf<Pair<Char, MutableTrieNodeImpl>>()
+        val nodes = mutableListOf<Pair<Char, MutableTrieNode>>()
         var currentNode : MutableTrieNode = root
         for (char in str) {
             val childNode  = currentNode.children[char] ?: return false
