@@ -2,9 +2,9 @@ package tree.trie
 
 import io.kotest.assertions.assertSoftly
 import io.kotest.matchers.shouldBe
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
 
 
 internal class TrieSpec {
@@ -19,7 +19,7 @@ internal class TrieSpec {
     @DisplayName("가장 많이 매칭된 문자열의 value를 반환합니다 : ")
     @Nested
     inner class FindSimilarValueSpec {
-        @DisplayName("'경기도'로 조회시 value는 '택배'여야 합니다.")
+        @DisplayName("'경기도'로 조회시 value는 '지입배송'입니다.")
         @Test
         fun allMatching() {
             trie.findSimilarValue("경기도") shouldBe "지입배송"

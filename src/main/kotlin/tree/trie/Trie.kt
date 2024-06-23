@@ -51,7 +51,7 @@ interface MutableTrie : Trie {
 }
 
 internal class TrieImpl(
-    override val root: MutableTrieNodeImpl = MutableTrieNodeImpl()
+    override val root: MutableTrieNode = MutableTrieNode.rootNode()
 ) : MutableTrie {
 
 
@@ -69,7 +69,7 @@ internal class TrieImpl(
     override fun put(str: String, value: String): Boolean {
         var currentNode : MutableTrieNode= root
         for (char in str) {
-            val childNode = currentNode.children[char] ?: MutableTrieNodeImpl().also { currentNode.children[char] = it }
+            val childNode = currentNode.children[char] ?: MutableTrieNodeImpl(char).also { currentNode.children[char] = it }
             currentNode = childNode
         }
         currentNode.value = value
@@ -111,27 +111,21 @@ internal class TrieImpl(
 
 // value를 T로 제네릭으로 하자
 interface TrieNode {
-    val children: Map<Char, TrieNode>
+    val key: Char
     val value: String?
+    val children: Map<Char, TrieNode>
     fun hasChildren(): Boolean = children.isNotEmpty()
-    // Trie인터페이스를 삭제하고 이걸로 하면 되지 않을까?
+
     /**
      * @param str 비교할 문자열
-     * @return 해당 문자열중 가장 많이 매칭된 문자열의 value를 가져옵니다.
+     * @return 해당 문자열중 가장 많이 매칭된 문자열의 node를 가져옵니다.
      */
-//    fun findSimilarValue(str: String): String?
+    fun findSimilarNode(str: String): TrieNode? = null
 
-//
-//    /**
-//     * 해당 문자열 구조를 trie에서 삭제합니다
-//     * 부모 노드가 자식 노드를 가지고 있지 않고 value가 null일 경우 삭제합니다.
-//     *
-//     * @param str 삭제할 문자열
-//     */
-//    fun remove(str: String): Boolean
 }
 
 interface MutableTrieNode : TrieNode {
+    override val key: Char
     override var value: String?
     override val children: MutableMap<Char, MutableTrieNode>
 
@@ -139,11 +133,30 @@ interface MutableTrieNode : TrieNode {
      * @param str 추가할 단어
      * @param value 단어에 대응하는 값
      */
-//    fun put(str: String, value: String): Boolean
+    fun put(node: MutableTrieNode): Boolean {
+        children[node.key] = node
+        return true
+    }
+
+    /**
+     * 해당 문자열 key를 가진 자식 목록에서 노드를 삭제합니다
+     *
+     * @param char 삭제할 문자열
+     * @return 삭제 성공 여부 (해당 node ket가 없을 경우 false)
+     */
+    fun remove(char: Char): Boolean {
+        return children.remove(char) != null
+    }
+
+    companion object {
+        fun rootNode(): MutableTrieNode = MutableTrieNodeImpl(Char.MIN_VALUE)
+    }
 }
 
-internal class MutableTrieNodeImpl(
-    override var value: String? = null
-) : MutableTrieNode {
+internal data class MutableTrieNodeImpl(
+    override val key: Char,
+    override var value: String? = null,
     override val children: MutableMap<Char, MutableTrieNode> = mutableMapOf()
+) : MutableTrieNode {
+
 }
