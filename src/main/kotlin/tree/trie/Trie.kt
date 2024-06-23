@@ -120,7 +120,16 @@ interface TrieNode {
      * @param str 비교할 문자열
      * @return 해당 문자열중 가장 많이 매칭된 문자열의 node를 가져옵니다.
      */
-    fun findSimilarNode(str: String): TrieNode? = null
+    fun findSimilarNode(str: String): TrieNode? {
+        if (str.isEmpty() || str.isBlank()) return null
+        return children[str.first()]?.let { child ->
+            if (str.length == 1) {
+                child
+            } else {
+                child.findSimilarNode(str.substring(1)) ?: child
+            }
+        }
+    }
 
 }
 
@@ -157,6 +166,4 @@ internal data class MutableTrieNodeImpl(
     override val key: Char,
     override var value: String? = null,
     override val children: MutableMap<Char, MutableTrieNode> = mutableMapOf()
-) : MutableTrieNode {
-
-}
+) : MutableTrieNode

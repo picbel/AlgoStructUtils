@@ -14,6 +14,7 @@ internal class TrieSpec {
         put("경상북도", "택배")
         put("경상남도", "택배")
         put("세종시", "지입배송")
+        put("서울", "에러")
     }
 
     @DisplayName("가장 많이 매칭된 문자열의 value를 반환합니다 : ")
