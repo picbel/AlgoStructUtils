@@ -56,14 +56,7 @@ internal class TrieImpl(
 
 
     override fun findSimilarValue(str: String): String? {
-        var currentNode : MutableTrieNode= root
-        var value: String? = null
-        for (char in str) {
-            val childNode = currentNode.children[char] ?: break
-            if (childNode.value != null) value = childNode.value
-            currentNode = childNode
-        }
-        return value
+        return root.findSimilarNode(str)?.value
     }
 
     override fun put(str: String, value: String): Boolean {
