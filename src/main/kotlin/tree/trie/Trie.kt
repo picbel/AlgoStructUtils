@@ -4,7 +4,7 @@ package tree.trie
  * Trie 자료구조를 구현합니다.
  * @since 2024/05/21
  */
-interface Trie { // 애가 굳이 필요있을까? TrieNode만으로도 해결 가능하여 보인다.
+interface Trie {
     val root: TrieNode
 
     /**
@@ -101,7 +101,6 @@ internal class TrieImpl(
     override fun toMutableTrie(): MutableTrie = this
 }
 
-// value를 T로 제네릭으로 하자
 interface TrieNode {
     val key: Char
     val value: String?
