@@ -1,10 +1,9 @@
 package tree.trie.util
 
 import org.json.JSONObject
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
-import tree.trie.Trie
+import tree.trie.TrieNode
 import tree.trie.util.TrieJsonUtils.fromJson
 import tree.trie.util.TrieJsonUtils.toJsonString
 
@@ -38,7 +37,7 @@ class TrieJsonUtilsTest {
     }
     """.trimIndent()
 
-    private val trie = Trie.fromJson(jsonString).toMutableTrie()
+    private val trie = TrieNode.fromJson(jsonString)
 
     @DisplayName("Trie를 JSON 문자열로 변환합니다.")
     @Test

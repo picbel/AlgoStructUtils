@@ -1,6 +1,5 @@
 package tree.trie
 
-// 240612 tree 인터페이스를 확장하는 식으로 구현하여보자
 /**
  * Trie 자료구조를 구현합니다.
  * @since 2024/05/21
@@ -123,6 +122,8 @@ interface TrieNode {
             }
         }
     }
+
+    companion object {}
 
 }
 

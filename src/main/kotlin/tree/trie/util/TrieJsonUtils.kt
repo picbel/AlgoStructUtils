@@ -1,9 +1,10 @@
 package tree.trie.util
 
 import org.json.JSONObject
-import tree.trie.*
+import tree.trie.MutableTrieNode
+import tree.trie.MutableTrieNodeImpl
+import tree.trie.TrieNode
 
-@Deprecated("다음작업에서 제거 예정")
 /**
  * Trie를 JSON 문자열로 변환하거나 JSON 문자열로부터 Trie를 구축하는 유틸리티 클래스입니다.
  */
@@ -14,8 +15,8 @@ object TrieJsonUtils {
     /**
      * @return Trie를 JSON 문자열로 변환합니다.
      */
-    fun Trie.toJsonString(): String {
-        return trieToJson(root).toString()
+    fun TrieNode.toJsonString(): String {
+        return trieToJson(this).toString()
     }
 
     private fun trieToJson(node: TrieNode): JSONObject {
@@ -30,22 +31,29 @@ object TrieJsonUtils {
     /**
      * @return JSON 문자열로부터 Trie를 구축합니다.
      */
-    fun Trie.Companion.fromJson(jsonStr: String): Trie {
+    fun TrieNode.Companion.fromJson(jsonStr: String): TrieNode {
+        return MutableTrieNode.fromJson(jsonStr)
+    }
+
+    /**
+     * @return JSON 문자열로부터 Trie를 구축합니다.
+     */
+    fun MutableTrieNode.Companion.fromJson(jsonStr: String): MutableTrieNode {
         val jsonObject = JSONObject(jsonStr)
-        val node = MutableTrieNode.rootNode() // 수정 필요
-        buildTrieFromJson(jsonObject, node)
-        return TrieImpl(node)
+        val node = rootNode()
+        buildTrieNodeFromJson(jsonObject, node)
+        return node
     }
 
     // JSON 객체로부터 Trie를 구축하는 수정된 메소드
-    private fun buildTrieFromJson(jsonObject: JSONObject, node: MutableTrieNode) {
+    private fun buildTrieNodeFromJson(jsonObject: JSONObject, node: MutableTrieNode) {
         jsonObject.keys().forEach { key ->
             when (key) {
                 VALUE -> node.value = jsonObject.getString(key) ?: null
                 else -> {
-                    val childNode = MutableTrieNodeImpl(key[0]) // 수정필요
+                    val childNode = MutableTrieNodeImpl(key[0])
                     node.children[key[0]] = childNode
-                    buildTrieFromJson(jsonObject.getJSONObject(key), childNode)
+                    buildTrieNodeFromJson(jsonObject.getJSONObject(key), childNode)
                 }
             }
         }
