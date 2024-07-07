@@ -1,5 +1,7 @@
 package tree.trie
 
+import tree.TreeNode
+
 /**
  * Trie 자료구조를 구현합니다.
  * @since 2024/05/21
@@ -19,7 +21,9 @@ interface Trie {
     fun toMutableTrie(): MutableTrie
 
     companion object {
-        fun empty(): Trie = TrieImpl()
+        fun new(
+            root: TrieNode = MutableTrieNode.rootNode()
+        ): Trie = TrieImpl(root.toMutableTrieNode())
     }
 }
 
@@ -59,9 +63,10 @@ internal class TrieImpl(
     }
 
     override fun put(str: String, value: String): Boolean {
-        var currentNode : MutableTrieNode= root
+        var currentNode: MutableTrieNode = root
         for (char in str) {
-            val childNode = currentNode.children[char] ?: MutableTrieNodeImpl(char).also { currentNode.children[char] = it }
+            val childNode =
+                currentNode.children[char] ?: MutableTrieNodeImpl(char).also { currentNode.children[char] = it }
             currentNode = childNode
         }
         currentNode.value = value
@@ -71,9 +76,9 @@ internal class TrieImpl(
     override fun remove(str: String): Boolean {
         // 삭제할 문자열의 노드를 저장합니다. first: 문자, second: 부모 노드
         val nodes = mutableListOf<Pair<Char, MutableTrieNode>>()
-        var currentNode : MutableTrieNode = root
+        var currentNode: MutableTrieNode = root
         for (char in str) {
-            val childNode  = currentNode.children[char] ?: return false
+            val childNode = currentNode.children[char] ?: return false
             nodes.add(char to currentNode)
             currentNode = childNode
         }
@@ -88,7 +93,7 @@ internal class TrieImpl(
     }
 
     override fun clearValue(str: String): Boolean {
-        var currentNode : MutableTrieNode = root
+        var currentNode: MutableTrieNode = root
         for (char in str) {
             val childNode = currentNode.children[char] ?: return false
             currentNode = childNode
@@ -101,10 +106,8 @@ internal class TrieImpl(
     override fun toMutableTrie(): MutableTrie = this
 }
 
-interface TrieNode {
-    val key: Char
-    val value: String?
-    val children: Map<Char, TrieNode>
+interface TrieNode : TreeNode<Char, String?> {
+    override val children: Map<Char, TrieNode>
     fun hasChildren(): Boolean = children.isNotEmpty()
 
     /**
@@ -127,13 +130,11 @@ interface TrieNode {
 }
 
 interface MutableTrieNode : TrieNode {
-    override val key: Char
     override var value: String?
     override val children: MutableMap<Char, MutableTrieNode>
 
     /**
-     * @param str 추가할 단어
-     * @param value 단어에 대응하는 값
+     * @param node 추가할 노드
      */
     fun put(node: MutableTrieNode): Boolean {
         children[node.key] = node
@@ -143,17 +144,23 @@ interface MutableTrieNode : TrieNode {
     /**
      * 해당 문자열 key를 가진 자식 목록에서 노드를 삭제합니다
      *
-     * @param char 삭제할 문자열
+     * @param key 삭제할 문자열
      * @return 삭제 성공 여부 (해당 node ket가 없을 경우 false)
      */
-    fun remove(char: Char): Boolean {
-        return children.remove(char) != null
+    fun remove(key: Char): Boolean {
+        return children.remove(key) != null
     }
 
     companion object {
         fun rootNode(): MutableTrieNode = MutableTrieNodeImpl(Char.MIN_VALUE)
     }
 }
+
+fun TrieNode.toMutableTrieNode(): MutableTrieNode = MutableTrieNodeImpl(
+    key = key,
+    value = value,
+    children = children.mapValues { it.value.toMutableTrieNode() }.toMutableMap()
+)
 
 internal data class MutableTrieNodeImpl(
     override val key: Char,
