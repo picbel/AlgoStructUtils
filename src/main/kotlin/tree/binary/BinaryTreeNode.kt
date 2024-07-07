@@ -1,16 +1,25 @@
 package tree.binary
 
+import tree.TreeNode
+
 /**
  * @since 2024/06/12
  */
-interface BinaryTreeNode {
-    val value: Int
+interface BinaryTreeNode : TreeNode<Int, Int> {
+    override val value: Int
+        get() = key
+
+    override val children: Map<Int, BinaryTreeNode>
+        get() = mutableMapOf<Int, BinaryTreeNode>().apply {
+            left?.let { put(it.key, it) }
+            right?.let { put(it.key, it) }
+        }
 
     var left: BinaryTreeNode?
 
     var right: BinaryTreeNode?
 
-    fun search(value: Int): Boolean
+    fun search(key: Int): Boolean
 
     /**
      * @return 전위 순회 결과
@@ -37,19 +46,19 @@ interface BinaryTreeNode {
 }
 
 interface MutableBinaryTreeNode : BinaryTreeNode {
-    fun insert(value: Int)
+    fun put(key: Int)
 
-    fun delete(value: Int)
+    fun remove(key: Int)
 
 }
 
 class MutableBinaryTreeNodeImpl(
-    override val value: Int,
+    override val key: Int,
     override var left: BinaryTreeNode? = null,
     override var right: BinaryTreeNode? = null
 ): MutableBinaryTreeNode {
 
-    override fun search(value: Int): Boolean {
+    override fun search(key: Int): Boolean {
         TODO("Not yet implemented")
     }
 
@@ -65,11 +74,11 @@ class MutableBinaryTreeNodeImpl(
         TODO("Not yet implemented")
     }
 
-    override fun insert(value: Int) {
+    override fun put(key: Int) {
         TODO("Not yet implemented")
     }
 
-    override fun delete(value: Int) {
+    override fun remove(key: Int) {
         TODO("Not yet implemented")
     }
 }
