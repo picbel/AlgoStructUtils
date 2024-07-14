@@ -33,10 +33,10 @@ internal class TrieNodeSpec {
         val node = MutableTrieNodeImpl(key = key, value = "test")
         root.put(node)
         // when
-       root.remove(key)
+        root.remove(key)
         // then
         val expect = root.children[key]
-        expect shouldBe  null
+        expect shouldBe null
     }
 
     @DisplayName("가장 많이 매칭된 문자열의 value를 반환합니다 : ")
@@ -47,7 +47,7 @@ internal class TrieNodeSpec {
         @BeforeEach
         fun setup() {
             root = MutableTrieNode.rootNode()
-            setNode("서울","에러")
+            setNode("서울", "에러")
             setNode("서울특별시", "직접배송")
             setNode("경기도", "지입배송")
             setNode("경상북도", "택배")
@@ -94,6 +94,7 @@ internal class TrieNodeSpec {
                 currentNode = childNode
             }
             currentNode.value = value
+            currentNode.isEnd = true
             return true
         }
     }

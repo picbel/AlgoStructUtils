@@ -66,10 +66,11 @@ internal class TrieImpl(
         var currentNode: MutableTrieNode = root
         for (char in str) {
             val childNode =
-                currentNode.children[char] ?: MutableTrieNodeImpl(char).also { currentNode.children[char] = it }
+                currentNode.children[char] ?: MutableTrieNodeImpl(char).also { currentNode.put(it) }
             currentNode = childNode
         }
         currentNode.value = value
+        currentNode.isEnd = true
         return true
     }
 
@@ -99,6 +100,7 @@ internal class TrieImpl(
             currentNode = childNode
         }
         currentNode.value = null
+        currentNode.isEnd = false
         if (!currentNode.hasChildren()) remove(str) // value도 없고 자식node도 없다면 그냥 삭제
         return true
     }
@@ -108,6 +110,7 @@ internal class TrieImpl(
 
 interface TrieNode : TreeNode<Char, String?> {
     override val children: Map<Char, TrieNode>
+    val isEnd: Boolean
     fun hasChildren(): Boolean = children.isNotEmpty()
 
     /**
@@ -132,6 +135,7 @@ interface TrieNode : TreeNode<Char, String?> {
 interface MutableTrieNode : TrieNode {
     override var value: String?
     override val children: MutableMap<Char, MutableTrieNode>
+    override var isEnd: Boolean
 
     /**
      * @param node 추가할 노드
@@ -159,11 +163,13 @@ interface MutableTrieNode : TrieNode {
 fun TrieNode.toMutableTrieNode(): MutableTrieNode = MutableTrieNodeImpl(
     key = key,
     value = value,
-    children = children.mapValues { it.value.toMutableTrieNode() }.toMutableMap()
+    children = children.mapValues { it.value.toMutableTrieNode() }.toMutableMap(),
+    isEnd = isEnd
 )
 
 internal data class MutableTrieNodeImpl(
     override val key: Char,
     override var value: String? = null,
-    override val children: MutableMap<Char, MutableTrieNode> = mutableMapOf()
+    override val children: MutableMap<Char, MutableTrieNode> = mutableMapOf(),
+    override var isEnd: Boolean = false
 ) : MutableTrieNode
