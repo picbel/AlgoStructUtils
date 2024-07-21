@@ -15,71 +15,78 @@ interface BinaryTreeNode : TreeNode<Int, Int> {
             right?.let { put(it.key, it) }
         }
 
-    var left: BinaryTreeNode?
+    val left: BinaryTreeNode?
 
-    var right: BinaryTreeNode?
-
-    fun search(key: Int): Boolean
+    val right: BinaryTreeNode?
 
     /**
      * @return 전위 순회 결과
      */
     fun preorderTraversal(): List<Int>
+
     /**
      * @return 중위 순회 결과
      */
     fun inorderTraversal(): List<Int>
+
     /**
      * @return 후위 순회 결과
      */
     fun postorderTraversal(): List<Int>
 
-//    /**
-//     * @return 최대값
-//     */
-//    fun max(): Int
-//    /**
-//     * @return 최소값
-//     */
-//    fun min(): Int
-
 }
 
 interface MutableBinaryTreeNode : BinaryTreeNode {
-    fun put(key: Int)
 
-    fun remove(key: Int)
+    override var left: MutableBinaryTreeNode?
+
+    override var right: MutableBinaryTreeNode?
 
 }
 
 class MutableBinaryTreeNodeImpl(
     override val key: Int,
-    override var left: BinaryTreeNode? = null,
-    override var right: BinaryTreeNode? = null
-): MutableBinaryTreeNode {
-
-    override fun search(key: Int): Boolean {
-        TODO("Not yet implemented")
-    }
+    override var left: MutableBinaryTreeNode? = null,
+    override var right: MutableBinaryTreeNode? = null
+) : MutableBinaryTreeNode {
 
     override fun preorderTraversal(): List<Int> {
-        TODO("Not yet implemented")
+        return preorderTraversalInternal(this, mutableListOf())
+    }
+
+    private fun preorderTraversalInternal(node: BinaryTreeNode?, acc: MutableList<Int>): List<Int> {
+        node?.let {
+            acc.add(it.key)
+            preorderTraversalInternal(it.left, acc)
+            preorderTraversalInternal(it.right, acc)
+        }
+        return acc
     }
 
     override fun inorderTraversal(): List<Int> {
-        TODO("Not yet implemented")
+        return inorderTraversalInternal(this, mutableListOf())
+    }
+
+    private fun inorderTraversalInternal(node: BinaryTreeNode?, acc: MutableList<Int>): List<Int> {
+        node?.let {
+            inorderTraversalInternal(it.left, acc)
+            acc.add(it.key)
+            inorderTraversalInternal(it.right, acc)
+        }
+        return acc
     }
 
     override fun postorderTraversal(): List<Int> {
-        TODO("Not yet implemented")
+        return postorderTraversalInternal(this, mutableListOf())
     }
 
-    override fun put(key: Int) {
-        TODO("Not yet implemented")
-    }
-
-    override fun remove(key: Int) {
-        TODO("Not yet implemented")
+    private fun postorderTraversalInternal(node: BinaryTreeNode?, acc: MutableList<Int>): List<Int> {
+        node?.let {
+            postorderTraversalInternal(it.left, acc)
+            postorderTraversalInternal(it.right, acc)
+            acc.add(it.key)
+        }
+        return acc
     }
 }
 
