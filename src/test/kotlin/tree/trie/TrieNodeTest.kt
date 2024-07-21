@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 
-internal class TrieNodeSpec {
+internal class TrieNodeTest {
 
     @DisplayName("하위 노드를 추가합니다")
     @Test

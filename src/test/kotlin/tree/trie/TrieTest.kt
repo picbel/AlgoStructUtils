@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test
 /**
  * @since 2024/02/04
  */
-internal class TrieSpec {
+internal class TrieTest {
     private val trie = MutableTrie.empty().apply {
         put("서울특별시", "직접배송")
         put("경기도", "지입배송")

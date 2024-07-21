@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 /**
  * @since 2024/06/12
  */
-internal class BinaryTreeNodeSpec {
+internal class BinaryTreeNodeTest {
     private lateinit var sut : MutableBinaryTreeNode
 
     /**

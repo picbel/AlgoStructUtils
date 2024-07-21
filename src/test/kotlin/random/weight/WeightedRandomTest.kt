@@ -8,7 +8,7 @@ import kotlin.test.Test
 /**
  * @since 2024/05/21
  */
-internal class WeightedRandomSpec {
+internal class WeightedRandomTest {
 
     @DisplayName("A의 비중을 10, B와 C의 비중을 각각 0으로 설정하고 random 함수를 호출하면 결과는 A만 나옵니다.")
     @Test
