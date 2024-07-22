@@ -21,7 +21,7 @@ interface Trie {
     fun toMutableTrie(): MutableTrie
 
     companion object {
-        fun new(
+        fun create(
             root: TrieNode = MutableTrieNode.rootNode()
         ): Trie = TrieImpl(root.toMutableTrieNode())
     }
@@ -49,7 +49,11 @@ interface MutableTrie : Trie {
     fun clearValue(str: String): Boolean
 
     companion object {
-        fun empty(): MutableTrie = TrieImpl()
+
+        fun create(
+            root: MutableTrieNode = MutableTrieNode.rootNode()
+        ): MutableTrie = TrieImpl(root)
+
     }
 }
 
