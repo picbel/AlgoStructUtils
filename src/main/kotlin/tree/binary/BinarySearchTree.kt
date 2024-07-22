@@ -8,5 +8,6 @@ interface BinarySearchTree {
 
 interface MutableBinaryTree : BinarySearchTree {
     fun put(key: Int, value: Int): Boolean
+
     fun remove(key: Int): Boolean
 }
