@@ -14,7 +14,7 @@ internal class WeightedRandomTest {
     @Test
     fun callRandomWithWeightsA10B0C0ReturnsAOnly() {
         // given:
-        val sut = MutableWeightedRandom.default<String>()
+        val sut = MutableWeightedRandom.create<String>()
         sut.add(WeightedItem("A", 10.0))
         sut.add(WeightedItem("B", 0.0))
         sut.add(WeightedItem("C", 0.0))
@@ -28,7 +28,7 @@ internal class WeightedRandomTest {
     @Test
     fun removeBThenCallRandomWithWeightsA10B10C0ReturnsAOnly() {
         // given:
-        val sut = MutableWeightedRandom.default<String>(
+        val sut = MutableWeightedRandom.create<String>(
             mutableListOf(
                 WeightedItem("A", 10.0),
                 WeightedItem("B", 10.0),
@@ -49,7 +49,7 @@ internal class WeightedRandomTest {
     @Test
     fun callRandomThrowsExceptionWhenAllWeightsAreZeroOrDeleted() {
         // given:
-        val sut = MutableWeightedRandom.default<String>(
+        val sut = MutableWeightedRandom.create<String>(
             mutableListOf(
                 WeightedItem("A", 10.0),
                 WeightedItem("B", 0.0),
@@ -68,7 +68,7 @@ internal class WeightedRandomTest {
     @Test
     fun callRandomThrowsExceptionWhenAllWeightsAreDeleted() {
         // given:
-        val sut = MutableWeightedRandom.default<String>()
+        val sut = MutableWeightedRandom.create<String>()
         // when: // then: When items is empty, the random function throws an exception.
         shouldThrow<IllegalStateException> {
             sut.random()
@@ -79,7 +79,7 @@ internal class WeightedRandomTest {
     @Test
     fun setItemsEmptyThenCallRandomReturnsAOnly() {
         // given:
-        val sut = MutableWeightedRandom.default<String>(
+        val sut = MutableWeightedRandom.create<String>(
             mutableListOf(
                 WeightedItem("A", 10.0),
                 WeightedItem("B", 10.0),

@@ -35,7 +35,7 @@ interface WeightedRandom<T> {
     fun random(): T
 
     companion object {
-        fun <T> default(
+        fun <T> create(
             items: Collection<WeightedItem<T>> = mutableListOf(),
             random: Random = Random.Default
         ): WeightedRandom<T> {
@@ -98,7 +98,7 @@ interface MutableWeightedRandom<T> : WeightedRandom<T> {
     fun remove(item: T): Boolean
 
     companion object {
-        fun <T> default(
+        fun <T> create(
             items: Collection<WeightedItem<T>> = mutableListOf(),
             random: Random = Random.Default
         ): MutableWeightedRandom<T> {
