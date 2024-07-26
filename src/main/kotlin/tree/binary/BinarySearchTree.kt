@@ -11,7 +11,7 @@ interface MutableBinaryTree : BinarySearchTree {
 
     fun put(node: MutableBinaryTreeNode): Boolean
 
-//    fun remove(key: Int): Boolean
+    fun remove(key: Int): Boolean
 
     companion object {
         fun create(root: MutableBinaryTreeNode): MutableBinaryTree {
@@ -45,6 +45,10 @@ class MutableBinaryTreeImpl(
                 return false
             }
         }
+    }
+
+    override fun remove(key: Int): Boolean {
+        TODO("Not yet implemented")
     }
 
     override fun find(key: Int): MutableBinaryTreeNode? {
