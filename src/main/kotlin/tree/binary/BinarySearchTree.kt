@@ -52,6 +52,7 @@ class MutableBinarySearchTreeImpl(
         var current: MutableBinaryTreeNode  = root
         val deleteNode : MutableBinaryTreeNode
         fakeRootNode.right = root
+
         while (true) {
             if (key < current.key) {
                 if (current.left == null) {
@@ -100,29 +101,38 @@ class MutableBinarySearchTreeImpl(
             return deleteNode
         }
 
+
         // 자식이 두개인 경우
-        current = deleteNode.left!!
-        parentNode = deleteNode
+        var leftMax = deleteNode.left!!
+        var leftMaxParentNode = deleteNode
         while (true) {
-            if (current.right == null) break
-            parentNode = current
-            current = current.right!!
+            if (leftMax.right == null) break
+            leftMaxParentNode = leftMax
+            leftMax = leftMax.right!!
+        }
+        // leftMax의 부모노드에 남은 leftMax 왼쪽 자식을 연결한다
+        if (leftMaxParentNode.left == leftMax) {
+            leftMaxParentNode.left = leftMax.left
+        } else {
+            leftMaxParentNode.right = leftMax.left
         }
 
-        val tempDeleteNode = MutableBinaryTreeNodeImpl(deleteNode.key)
-        if (parentNode.left == current) {
-            parentNode.left = current.left
+        // leftMax를 삭제할 노드의 자리로 옮긴다
+        leftMax.left = deleteNode.left
+        leftMax.right = deleteNode.right
+
+        // 삭제할 노드의 부모노드에 leftMax를 연결한다
+        if (parentNode.left == deleteNode) {
+            parentNode.left = leftMax
         } else {
-            parentNode.right = current.left
+            parentNode.right = leftMax
         }
-        deleteNode.value = current.value
 
         // root에 변경이 있다면
         if (fakeRootNode.right != root) {
             root = fakeRootNode.right!!
         }
-
-        return tempDeleteNode
+        return deleteNode
     }
 
     override fun find(key: Int): MutableBinaryTreeNode? {

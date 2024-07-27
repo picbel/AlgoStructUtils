@@ -97,8 +97,6 @@ class BinarySearchTreeImplTest {
         sut.root.inorderTraversal() shouldBe listOf(3, 6, 7, 8, 10, 11, 12, 15, 18, 20, 24, 27, 33, 35, 37)
     }
 
-
-
     @Test
     fun removeTerminalNodeTest() {
         // Given :
@@ -109,5 +107,32 @@ class BinarySearchTreeImplTest {
 
         // Then :
         sut.root.inorderTraversal() shouldBe listOf(3, 6, 7, 8, 10, 11, 12, 15, 18, 20, 24, 27, 31, 33, 35)
+    }
+
+    @Test
+    fun removeRootNodeTest() {
+        // Given :
+        val key = 18
+
+        // When :
+        sut.remove(key)
+
+        // Then :
+        sut.root.inorderTraversal() shouldBe listOf(3, 6, 7, 8, 10, 11, 12, 15, 20, 24, 27, 31, 33, 35, 37)
+    }
+
+    @Test
+    fun randomRemoveTest() {
+        // Given :
+        val keys = (1..499) + (501..1000).shuffled().take(30)
+        val sut = MutableBinarySearchTreeImpl(MutableBinaryTreeNodeImpl(500))
+        keys.forEach { sut.put(MutableBinaryTreeNodeImpl(it)) }
+        val key = (keys + 500).random()
+
+        // When :
+        sut.remove(key)
+
+        // Then :
+        sut.root.inorderTraversal().any { it == key } shouldBe false
     }
 }
