@@ -115,7 +115,6 @@ internal class TrieImpl(
 interface TrieNode : TreeNode<Char, String?> {
     override val children: Map<Char, TrieNode>
     val isEnd: Boolean
-    fun hasChildren(): Boolean = children.isNotEmpty()
 
     /**
      * @param str 비교할 문자열

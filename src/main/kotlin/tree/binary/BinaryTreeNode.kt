@@ -37,6 +37,7 @@ interface BinaryTreeNode : TreeNode<Int, Int> {
 }
 
 interface MutableBinaryTreeNode : BinaryTreeNode {
+    override var value: Int
 
     override var left: MutableBinaryTreeNode?
 
@@ -45,10 +46,14 @@ interface MutableBinaryTreeNode : BinaryTreeNode {
 }
 
 class MutableBinaryTreeNodeImpl(
-    override val key: Int,
+    override var value: Int,
     override var left: MutableBinaryTreeNode? = null,
     override var right: MutableBinaryTreeNode? = null
 ) : MutableBinaryTreeNode {
+
+    override val key: Int
+        get() = value
+
 
     override fun preorderTraversal(): List<Int> {
         return preorderTraversalInternal(this, mutableListOf())
