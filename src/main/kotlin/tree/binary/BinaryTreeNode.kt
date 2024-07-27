@@ -5,61 +5,56 @@ import tree.TreeNode
 /**
  * @since 2024/06/12
  */
-interface BinaryTreeNode : TreeNode<Int, Int> {
-    override val value: Int
-        get() = key
+interface BinaryTreeNode<K : Comparable<K>, V> : TreeNode<K, V> {
 
-    override val children: Map<Int, BinaryTreeNode>
-        get() = mutableMapOf<Int, BinaryTreeNode>().apply {
+    override val children: Map<K, BinaryTreeNode<K, V>>
+        get() = mutableMapOf<K, BinaryTreeNode<K, V>>().apply {
             left?.let { put(it.key, it) }
             right?.let { put(it.key, it) }
         }
 
-    val left: BinaryTreeNode?
+    val left: BinaryTreeNode<K, V>?
 
-    val right: BinaryTreeNode?
+    val right: BinaryTreeNode<K, V>?
 
     /**
      * @return 전위 순회 결과
      */
-    fun preorderTraversal(): List<Int>
+    fun preorderTraversal(): List<K>
 
     /**
      * @return 중위 순회 결과
      */
-    fun inorderTraversal(): List<Int>
+    fun inorderTraversal(): List<K>
 
     /**
      * @return 후위 순회 결과
      */
-    fun postorderTraversal(): List<Int>
+    fun postorderTraversal(): List<K>
 
 }
 
-interface MutableBinaryTreeNode : BinaryTreeNode {
-    override var value: Int
+interface MutableBinaryTreeNode<K : Comparable<K>, V> : BinaryTreeNode<K, V> {
+    override var value: V
 
-    override var left: MutableBinaryTreeNode?
+    override var left: MutableBinaryTreeNode<K, V>?
 
-    override var right: MutableBinaryTreeNode?
+    override var right: MutableBinaryTreeNode<K, V>?
 
 }
 
-class MutableBinaryTreeNodeImpl(
-    override var value: Int,
-    override var left: MutableBinaryTreeNode? = null,
-    override var right: MutableBinaryTreeNode? = null
-) : MutableBinaryTreeNode {
+class MutableBinaryTreeNodeImpl<K : Comparable<K>, V>(
+    override var key: K,
+    override var value: V,
+    override var left: MutableBinaryTreeNode<K, V>? = null,
+    override var right: MutableBinaryTreeNode<K, V>? = null
+) : MutableBinaryTreeNode<K, V> {
 
-    override val key: Int
-        get() = value
-
-
-    override fun preorderTraversal(): List<Int> {
+    override fun preorderTraversal(): List<K> {
         return preorderTraversalInternal(this, mutableListOf())
     }
 
-    private fun preorderTraversalInternal(node: BinaryTreeNode?, acc: MutableList<Int>): List<Int> {
+    private fun preorderTraversalInternal(node: BinaryTreeNode<K, V>?, acc: MutableList<K>): List<K> {
         node?.let {
             acc.add(it.key)
             preorderTraversalInternal(it.left, acc)
@@ -68,11 +63,11 @@ class MutableBinaryTreeNodeImpl(
         return acc
     }
 
-    override fun inorderTraversal(): List<Int> {
+    override fun inorderTraversal(): List<K> {
         return inorderTraversalInternal(this, mutableListOf())
     }
 
-    private fun inorderTraversalInternal(node: BinaryTreeNode?, acc: MutableList<Int>): List<Int> {
+    private fun inorderTraversalInternal(node: BinaryTreeNode<K, V>?, acc: MutableList<K>): List<K> {
         node?.let {
             inorderTraversalInternal(it.left, acc)
             acc.add(it.key)
@@ -81,11 +76,11 @@ class MutableBinaryTreeNodeImpl(
         return acc
     }
 
-    override fun postorderTraversal(): List<Int> {
+    override fun postorderTraversal(): List<K> {
         return postorderTraversalInternal(this, mutableListOf())
     }
 
-    private fun postorderTraversalInternal(node: BinaryTreeNode?, acc: MutableList<Int>): List<Int> {
+    private fun postorderTraversalInternal(node: BinaryTreeNode<K, V>?, acc: MutableList<K>): List<K> {
         node?.let {
             postorderTraversalInternal(it.left, acc)
             postorderTraversalInternal(it.right, acc)

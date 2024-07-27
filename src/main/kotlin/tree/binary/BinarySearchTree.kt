@@ -1,30 +1,30 @@
 package tree.binary
 
-interface BinarySearchTree {
-    val root : BinaryTreeNode
+interface BinarySearchTree<K : Comparable<K>, V> {
+    val root: BinaryTreeNode<K, V>
 
-    fun find(key: Int): BinaryTreeNode?
+    fun find(key: K): BinaryTreeNode<K, V>?
 }
 
-interface MutableBinarySearchTree : BinarySearchTree {
-    override var root: MutableBinaryTreeNode
+interface MutableBinarySearchTree<K : Comparable<K>, V> : BinarySearchTree<K, V> {
+    override var root: MutableBinaryTreeNode<K, V>
 
-    fun put(node: MutableBinaryTreeNode): Boolean
+    fun put(node: MutableBinaryTreeNode<K, V>): Boolean
 
-    fun remove(key: Int): MutableBinaryTreeNode?
+    fun remove(key: K): MutableBinaryTreeNode<K, V>?
 
     companion object {
-        fun create(root: MutableBinaryTreeNode): MutableBinarySearchTree {
+        fun <K : Comparable<K>, V> create(root: MutableBinaryTreeNode<K, V>): MutableBinarySearchTree<K, V> {
             return MutableBinarySearchTreeImpl(root)
         }
     }
 }
 
-class MutableBinarySearchTreeImpl(
-    override var root: MutableBinaryTreeNode
-) : MutableBinarySearchTree {
+class MutableBinarySearchTreeImpl<K : Comparable<K>, V>(
+    override var root: MutableBinaryTreeNode<K, V>
+) : MutableBinarySearchTree<K, V> {
 
-    override fun put(node: MutableBinaryTreeNode): Boolean {
+    override fun put(node: MutableBinaryTreeNode<K, V>): Boolean {
         var current = root
 
         while (true) {
@@ -46,11 +46,11 @@ class MutableBinarySearchTreeImpl(
         }
     }
 
-    override fun remove(key: Int): MutableBinaryTreeNode? {
-        val fakeRootNode = MutableBinaryTreeNodeImpl(-1)
-        var parentNode : MutableBinaryTreeNode  = fakeRootNode
-        var current: MutableBinaryTreeNode  = root
-        val deleteNode : MutableBinaryTreeNode
+    override fun remove(key: K): MutableBinaryTreeNode<K, V>? {
+        val fakeRootNode = MutableBinaryTreeNodeImpl(key = root.key, value = root.value)
+        var parentNode: MutableBinaryTreeNode<K, V> = fakeRootNode
+        var current: MutableBinaryTreeNode<K, V> = root
+        val deleteNode: MutableBinaryTreeNode<K, V>
         fakeRootNode.right = root
 
         while (true) {
@@ -73,7 +73,7 @@ class MutableBinarySearchTreeImpl(
         }
 
         // 터미널 노드인경우
-        if (deleteNode.isTerminalNode()){
+        if (deleteNode.isTerminalNode()) {
             if (parentNode.left == deleteNode) {
                 parentNode.left = null
             } else {
@@ -135,7 +135,7 @@ class MutableBinarySearchTreeImpl(
         return deleteNode
     }
 
-    override fun find(key: Int): MutableBinaryTreeNode? {
+    override fun find(key: K): MutableBinaryTreeNode<K, V>? {
         var current = root
         while (true) {
             if (key < current.key) {

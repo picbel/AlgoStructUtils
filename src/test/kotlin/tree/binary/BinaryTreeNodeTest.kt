@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
  * @since 2024/06/12
  */
 internal class BinaryTreeNodeTest {
-    private lateinit var sut : MutableBinaryTreeNode
+    private lateinit var sut: MutableBinaryTreeNode<Int, Int>
 
     /**
      * 이진 트리 구조를 초기화합니다.
@@ -25,13 +25,13 @@ internal class BinaryTreeNodeTest {
 
     @BeforeEach
     fun setup() {
-        val seven = MutableBinaryTreeNodeImpl(7)
-        val six = MutableBinaryTreeNodeImpl(6)
-        val five = MutableBinaryTreeNodeImpl(5)
-        val four = MutableBinaryTreeNodeImpl(4)
-        val three = MutableBinaryTreeNodeImpl(3)
-        val two = MutableBinaryTreeNodeImpl(2)
-        sut =  MutableBinaryTreeNodeImpl(1)
+        val seven = MutableBinaryTreeNodeImpl(7, 7)
+        val six = MutableBinaryTreeNodeImpl(6, 6)
+        val five = MutableBinaryTreeNodeImpl(5, 5)
+        val four = MutableBinaryTreeNodeImpl(4, 4)
+        val three = MutableBinaryTreeNodeImpl(3, 3)
+        val two = MutableBinaryTreeNodeImpl(2, 2)
+        sut = MutableBinaryTreeNodeImpl(1, 1)
         sut.left = two
         sut.right = three
         two.left = four
