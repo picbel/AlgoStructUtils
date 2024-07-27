@@ -14,7 +14,7 @@ internal class TrieNodeTest {
     @Test
     fun putNode() {
         // given
-        val root = MutableTrieNode.rootNode()
+        val root = MutableTrieNode.rootNode<String>()
         val key = 'a'
         val node = MutableTrieNodeImpl(key = key, value = "test")
         // when
@@ -28,7 +28,7 @@ internal class TrieNodeTest {
     @Test
     fun removeNode() {
         // given
-        val root = MutableTrieNode.rootNode()
+        val root = MutableTrieNode.rootNode<String>()
         val key = 'a'
         val node = MutableTrieNodeImpl(key = key, value = "test")
         root.put(node)
@@ -42,7 +42,7 @@ internal class TrieNodeTest {
     @DisplayName("가장 많이 매칭된 문자열의 value를 반환합니다 : ")
     @Nested
     inner class FindSimilarNodeSpec {
-        private lateinit var root: MutableTrieNode
+        private lateinit var root: MutableTrieNode<String>
 
         @BeforeEach
         fun setup() {
@@ -86,9 +86,9 @@ internal class TrieNodeTest {
         }
 
         private fun setNode(str: String, value: String): Boolean {
-            var currentNode: MutableTrieNode = root
+            var currentNode: MutableTrieNode<String> = root
             for (char in str) {
-                val childNode = currentNode.children[char] ?: MutableTrieNodeImpl(char).also {
+                val childNode = currentNode.children[char] ?: MutableTrieNodeImpl<String>(char).also {
                     currentNode.children[char] = it
                 }
                 currentNode = childNode

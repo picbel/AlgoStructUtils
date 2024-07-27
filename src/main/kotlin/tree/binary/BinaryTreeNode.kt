@@ -7,6 +7,8 @@ import tree.TreeNode
  */
 interface BinaryTreeNode<K : Comparable<K>, V> : TreeNode<K, V> {
 
+    override val value: V
+
     override val children: Map<K, BinaryTreeNode<K, V>>
         get() = mutableMapOf<K, BinaryTreeNode<K, V>>().apply {
             left?.let { put(it.key, it) }

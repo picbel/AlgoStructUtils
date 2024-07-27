@@ -4,7 +4,7 @@ interface Node<K, V> {
 
     val key: K
 
-    val value: V
+    val value: V?
 
 }
 
