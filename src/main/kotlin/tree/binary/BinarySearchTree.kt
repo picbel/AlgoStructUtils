@@ -3,7 +3,24 @@ package tree.binary
 interface BinarySearchTree<K : Comparable<K>, V> {
     val root: BinaryTreeNode<K, V>
 
-    fun find(key: K): BinaryTreeNode<K, V>?
+    fun find(key: K): BinaryTreeNode<K, V>? {
+        var current = root
+        while (true) {
+            if (key < current.key) {
+                if (current.left == null) {
+                    return null
+                }
+                current = current.left!!
+            } else if (key > current.key) {
+                if (current.right == null) {
+                    return null
+                }
+                current = current.right!!
+            } else {
+                return current
+            }
+        }
+    }
 }
 
 interface MutableBinarySearchTree<K : Comparable<K>, V> : BinarySearchTree<K, V> {
@@ -135,24 +152,6 @@ class MutableBinarySearchTreeImpl<K : Comparable<K>, V>(
         return deleteNode
     }
 
-    override fun find(key: K): MutableBinaryTreeNode<K, V>? {
-        var current = root
-        while (true) {
-            if (key < current.key) {
-                if (current.left == null) {
-                    return null
-                }
-                current = current.left!!
-            } else if (key > current.key) {
-                if (current.right == null) {
-                    return null
-                }
-                current = current.right!!
-            } else {
-                return current
-            }
-        }
-    }
 }
 
 
