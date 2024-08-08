@@ -22,12 +22,14 @@ interface MutableAvlTree<K : Comparable<K>, V> : AvlTree<K, V>, MutableBinarySea
 class MutableAvlTreeImpl<K : Comparable<K>, V>(
     override var root: MutableBinaryTreeNode<K, V>
 ) : MutableAvlTree<K, V> {
+
     override fun put(node: MutableBinaryTreeNode<K, V>): Boolean {
-        return false
+        TODO("Not yet implemented")
     }
 
     override fun remove(key: K): MutableBinaryTreeNode<K, V>? {
-        return null
+        TODO("Not yet implemented")
     }
+
 
 }
