@@ -34,5 +34,38 @@ class MutableAvlTreeImpl<K : Comparable<K>, V>(
         TODO("Not yet implemented")
     }
 
+    private fun height(node: MutableBinaryTreeNode<K, V>?): Int {
+       TODO()
+    }
+
+    private fun updateHeight(node: MutableBinaryTreeNode<K, V>) {
+        TODO()
+    }
+
+    private fun balanceFactor(node: MutableBinaryTreeNode<K, V>?): Int {
+        TODO()
+    }
+
+    private fun rotateLeft(node: MutableBinaryTreeNode<K, V>): MutableBinaryTreeNode<K, V> {
+        TODO()
+    }
+
+    private fun rotateRight(node: MutableBinaryTreeNode<K, V>): MutableBinaryTreeNode<K, V> {
+        TODO()
+    }
+
+    private fun rotation(node: MutableBinaryTreeNode<K, V>): MutableBinaryTreeNode<K, V> {
+        TODO()
+    }
+
+    private fun getUnbalancedNode(node: MutableBinaryTreeNode<K, V>): MutableBinaryTreeNode<K, V>? {
+        TODO()
+    }
+
+    private fun removeHelper(node: MutableBinaryTreeNode<K, V>?, key: K): MutableBinaryTreeNode<K, V>? {
+        TODO()
+    }
+
+
 
 }
